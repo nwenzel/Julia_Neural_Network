@@ -40,11 +40,8 @@ The output should who the training data (all 4 records), the classes of the trai
 From there, go in and mess with the code.
 
 ### Requirements ###
-Python 2.7 (may work elsewhere but probably not 3.x)
-
-Numpy
-
-Matplotlib is recommended but not required
+Julia
+Version 0.0.0+99580215.r6242
 
 ## Author ##
 
