@@ -31,10 +31,10 @@ XOR_Test([10], 2500)  <-- This will work but is ridiculous
 ####At the Terminal:####
 Make changes to the last line of the file to adjust the architecture. Then...
 
-julia julia_nn_functino.jl
+julia julia_nn_function.jl
 
 
-The output should who the training data (all 4 records), the classes of the training data, an explanation of the architecture, Theta shapes and values, the cost of the last iteration of the back prop function, a new set of input data to test, and predicted outputs.
+The output should show the training data (all 4 records), the classes of the training data, an explanation of the architecture, Theta shapes and values, the cost of the last iteration of the back prop function, a new set of input data to test, and predicted outputs.
 
 
 From there, go in and mess with the code.
