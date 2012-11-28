@@ -200,7 +200,6 @@ function back_prop(X_train, Y_train, Theta_L, lmda)
   # Loop backwards through Thetas to apply Error to prior Layer (except input layer)
   # Finish at T-2 because start at 0, output layer is done outside, the loop and input has no error
 
-    delta_N[T] = delta
   # Output Error
   delta_N[T] = delta
 
