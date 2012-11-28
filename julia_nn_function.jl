@@ -170,7 +170,6 @@ function back_prop(X_train, Y_train, Theta_L, lmda)
 
   n_observations = size(X_train,1)
   
-  Y_pred = zeros(size(Y_train))
   T = length(Theta_L)
 
   # Create Modified copy of the Theta_L for Regularization with Coefficient for bias unit set to 0 so that bias unit is not regularized
@@ -182,41 +181,39 @@ function back_prop(X_train, Y_train, Theta_L, lmda)
     push(Theta_Gradient_L, zeros(size(Theta_L[i])))
   end
 
-  for n=1:n_observations
-    #println( "X_train[n] VALUE: $n, $(X_train[n,:])" )
 
-    # Forward Pass
-    z_N, a_N, Y_pred[n,:] = nn_predict(X_train[n,:], Theta_L)
+  # Forward Pass
+  z_N, a_N, Y_pred = nn_predict(X_train, Theta_L)
 
-    # Backprop Error Accumulator
-    delta_N = {}
-    for t=1:T
-      push(delta_N, {})
-    end
+  # Backprop Error Accumulator
+  delta_N = {}
+  for t=1:T
+    push(delta_N, {})
+  end
     
-    # Error for Output layer is predicted value - Y training value
-    delta = Y_pred[n,:] - Y_train[n,:]
-    if ndims(delta) == 1
-      delta = reshape(delta, 1, length(delta) )
-    end
+  # Error for Output layer is predicted value - Y training value
+  delta = Y_pred - Y_train
+  if ndims(delta) == 1
+    delta = reshape(delta, 1, length(delta) )
+  end
 
-    # Loop backwards through Thetas to apply Error to prior Layer (except input layer)
-    # Finish at T-2 because start at 0, output layer is done outside, the loop and input has no error
+  # Loop backwards through Thetas to apply Error to prior Layer (except input layer)
+  # Finish at T-2 because start at 0, output layer is done outside, the loop and input has no error
 
-    # Output Error
     delta_N[T] = delta
+  # Output Error
+  delta_N[T] = delta
 
-    # Hidden Layers Error    
-    for t=0:T-2
-      delta = (delta * Theta_L[T-t][:,2:]) .* sigmoidGradient(z_N[T-t])
-      delta_N[T-t-1] = delta
-    end
+  # Hidden Layers Error    
+  for t=0:T-2
+    delta = (delta * Theta_L[T-t][:,2:]) .* sigmoidGradient(z_N[T-t])
+    delta_N[T-t-1] = delta
+  end
     
-    # Accumulate the error gradients (no error in input layer)
-    # t is the Theta from layer t to layer t+1
-    for t=1:T
-      Theta_Gradient_L[t] = Theta_Gradient_L[t] + delta_N[t]' * a_N[t] #'
-    end
+  # Calculate error gradients (no error in input layer)
+  # t is the Theta from layer t to layer t+1
+  for t=1:T
+    Theta_Gradient_L[t] = Theta_Gradient_L[t] + delta_N[t]' * a_N[t] #'
   end
 
   # Average Error + regularization penalty  
