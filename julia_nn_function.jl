@@ -95,13 +95,7 @@ function nn_cost(Y, Y_pred)
   n_observations = size(Y,1)
   
   # Cost Function
-  if size(Y,2) == 1
-    # Y[i] is scalar
-    J = (-1.0 / n_observations ) * sum(Y'*log(Y_pred) + ((1-Y')*log(1-Y_pred)))
-  else
-    # Y[i] is vector
-    J = (-1.0 / n_observations ) * sum(diag(Y'*log(Y_pred) + ((1-Y')*log(1-Y_pred))))
-  end
+  J = (-1.0 / n_observations ) * sum((Y .* log(Y_pred)) + ((1-Y) .* log(1-Y_pred)))
   
   J
 
